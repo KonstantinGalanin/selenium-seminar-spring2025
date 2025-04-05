@@ -25,11 +25,12 @@ class TestExample(BaseCase):
             ),
         ],
     )
-    @pytest.mark.skip('skip')
+    # @pytest.mark.skip('skip')
     def test_search(self, query):
         self.base_page.search(query)
         assert 'No results found' not in self.driver.page_source
 
+    @pytest.mark.skip('skip')
     @allure.step('Click')
     def test_negative_search(self):
         time.sleep(5)
@@ -39,19 +40,19 @@ class TestExample(BaseCase):
         assert 'No results found' in self.driver.page_source
         assert 1 == 0
 
-    @pytest.mark.skip('skip')
+    # @pytest.mark.skip('skip')
     def test_page_change(self):
         self.base_page.click(
             basic_locators.BasePageLocators.GO_BUTTON_LOCATOR, timeout=10
         )
 
-    @pytest.mark.skip('skip')
+    # @pytest.mark.skip('skip')
     def test_carousel(self):
         self.main_page.click(
             basic_locators.MainPageLocators.COMPREHENSIONS, timeout=15
         )
 
-    @pytest.mark.skip('skip')
+    # @pytest.mark.skip('skip')
     def test_iframe(self):
         self.main_page.click(self.main_page.locators.START_SHELL)
         time.sleep(15)
@@ -121,7 +122,7 @@ class TestLoad(BaseCase):
 
 
 class TestFailed(BaseCase):
-
+    @pytest.mark.skip('skip')
     def test_fail(self):
         self.main_page.find((By.XPATH, '12312312312312'), timeout=1)
 
