@@ -47,7 +47,6 @@ def credentials():
 @pytest.fixture(scope='session')
 def cookies(credentials, config):
     driver = config.get("driver")
-    pass
 
 
 class MainPage(BasePage):
@@ -57,39 +56,30 @@ class MainPage(BasePage):
 class TestLogin(BaseCase):
     authorize = True
 
-    # def test_login(self, credentials):
-    #     self.login_page = LoginPage(self.driver)
-    #     self.login_page.login(
-    #         credentials["username"],
-    #         credentials["password"]
-    #     )
-    #     time.sleep(15)
-    #     assert 1 == 1
+    def test_login(self, credentials):
+        self.login_page.login(
+            credentials["username"],
+            credentials["password"]
+        )
+        assert 1 == 1
 
 class TestLK(BaseCase):
-
     def test_search_classmate(self, credentials):
-        self.login_page = LoginPage(self.driver)
         self.login_page.login(
             credentials["username"],
             credentials["password"]
         )
 
         self.feed_page = FeedPage(self.driver) 
-        self.feed_page.search_classmate("Александр Новиков") 
-        time.sleep(10)
+        self.feed_page.search_classmate("Александр Новиков", "user_189524") 
 
 
 
     def test_search_lesson_info(self, credentials):
-        self.login_page = LoginPage(self.driver)
         self.login_page.login(
             credentials["username"],
             credentials["password"]
         )
 
         self.feed_page = FeedPage(self.driver)
-        self.feed_page.click(locators_vk.LoginPageLocators.COURSES_TOGGLE)
-        self.feed_page.search_lesson_info()
-
-        time.sleep(10)
+        self.feed_page.search_lesson_info(30921)
