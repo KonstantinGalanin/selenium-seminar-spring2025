@@ -8,8 +8,6 @@ from ui.pages.base_page import BasePage
 
 
 class BaseCase:
-    authorize = True
-
     @pytest.fixture(scope='function', autouse=True)
     def setup(self, driver, config, request: FixtureRequest):
         self.driver = driver
@@ -17,8 +15,6 @@ class BaseCase:
 
         self.login_page = LoginPage(driver)
         self.main_page = MainPage(driver)
-        if self.authorize:
-            print('Do something for login')
 
 
 @pytest.fixture(scope='session')
@@ -37,8 +33,6 @@ class MainPage(BasePage):
 
 
 class TestLogin(BaseCase):
-    authorize = True
-
     def test_login(self, credentials):
         self.login_page.login(
             credentials["username"],
