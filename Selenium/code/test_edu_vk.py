@@ -1,22 +1,10 @@
 import pytest
 from _pytest.fixtures import FixtureRequest
-import time
 import dotenv
 import os
 from ui.pages.vk.login_page import LoginPage
 from ui.pages.vk.feed_page import FeedPage
-
-
 from ui.pages.base_page import BasePage
-from ui.locators import locators_vk
-from selenium.webdriver.common.keys import Keys
-
-
-
-# class BasePageLocators: 
-#     LOGIN_LINK = ("class name", "gtm-auth-header-btn")
-#     LOGIN_BTN = ("class name", "bLqIKi")
-#     LOGIN_SUBMIT_BTN = ("class name", "gmKwFa")
 
 
 class BaseCase:
@@ -35,13 +23,8 @@ class BaseCase:
 
 @pytest.fixture(scope='session')
 def credentials():
-        # dotenv.load_dotenv()
-        # return {"login": os.getenv("LOGIN"), "password": os.getenv("PASSWORD")}
-
-        return {
-            "username": "konstantin.galanin@icloud.com",
-            "password": "NFQ-V6i-z76-9Tp"
-        }   
+        dotenv.load_dotenv()
+        return {"login": os.getenv("LOGIN"), "password": os.getenv("PASSWORD")}
 
 
 @pytest.fixture(scope='session')
@@ -61,7 +44,6 @@ class TestLogin(BaseCase):
             credentials["username"],
             credentials["password"]
         )
-        assert 1 == 1
 
 class TestLK(BaseCase):
     def test_search_classmate(self, credentials):
@@ -71,9 +53,10 @@ class TestLK(BaseCase):
         )
 
         self.feed_page = FeedPage(self.driver) 
-        self.feed_page.search_classmate("Александр Новиков", "user_189524") 
 
-
+        username = "Александр Новиков"
+        self.feed_page.search_classmate(username, "user_189524")
+        assert username == self.feed_page.get_user_name()
 
     def test_search_lesson_info(self, credentials):
         self.login_page.login(
@@ -82,4 +65,5 @@ class TestLK(BaseCase):
         )
 
         self.feed_page = FeedPage(self.driver)
-        self.feed_page.search_lesson_info(30921)
+        lesson_info = self.feed_page.search_lesson_info(30921)
+        assert "Семинар 2. End-to-End тесты на Python" in lesson_info.text, "название занятия не совпадает"

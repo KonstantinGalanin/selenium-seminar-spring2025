@@ -15,8 +15,14 @@ class FeedPage(BasePage):
     def search_lesson_info(self, lesson_id):
         self.click(locators_vk.MainPageLocators.COURSES_TOGGLE)
         self.click(locators_vk.MainPageLocators.QA_COURSE, timeout=10)
+
+        return self.find_lesson_name(lesson_id)
+    
+    def find_lesson_name(self, lesson_id):
         self.driver.switch_to.window(self.driver.window_handles[-1])
         self.click(locators_vk.lesson_locator(lesson_id), timeout=10)
-        
-
+        return self.find(locators_vk.MainPageLocators.LESSON_NAME, timeout=10)
+    
+    def get_user_name(self):
+        return self.find(locators_vk.MainPageLocators.USER_NAME).text
     
